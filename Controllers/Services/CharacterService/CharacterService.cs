@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,6 +6,7 @@ using AutoMapper;
 using dotnet_rpg_udemy.Dtos;
 using dotnet_rpg_udemy.Dtos.Character;
 using dotnet_rpg_udemy.Models;
+using RPG_Udemy.Dtos.Character;
 
 namespace dotnet_rpg_udemy.Services.CharacterService
 {
@@ -42,6 +44,28 @@ namespace dotnet_rpg_udemy.Services.CharacterService
         {
             ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
             serviceResponse.Data = _mapper.Map<GetCharacterDto>(characters.FirstOrDefault(c => c.Id == id));
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        {
+            ServiceResponse<GetCharacterDto> serviceResponse = new ServiceResponse<GetCharacterDto>();
+
+            try {
+                Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                character.Name = updatedCharacter.Name;
+                character.Class = updatedCharacter.Class;
+                character.Defence = updatedCharacter.Defence;
+                character.HitPoints = updatedCharacter.HitPoints;
+                character.Intelligence = updatedCharacter.Intelligence;
+                character.Strength = updatedCharacter.Strength;
+
+                serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);    
+            } catch(Exception ex) {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+
             return serviceResponse;
         }
     }

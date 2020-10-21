@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using dotnet_rpg_udemy.Dtos;
 using dotnet_rpg_udemy.Dtos.Character;
 using dotnet_rpg_udemy.Models;
+using RPG_Udemy.Dtos.Character;
 
 namespace dotnet_rpg_udemy.Services.CharacterService
  {
@@ -11,5 +12,6 @@ namespace dotnet_rpg_udemy.Services.CharacterService
          Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters();
          Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id);
          Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter);
+         Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter);
      }
  }
