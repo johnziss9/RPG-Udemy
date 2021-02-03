@@ -14,10 +14,6 @@ namespace dotnet_rpg_udemy.Services.CharacterService
 {
     public class CharacterService : ICharacterService
     {
-        private static List<Character> characters = new List<Character> {
-            new Character(),
-            new Character { Id = 1, Name = "Sam" }
-        };
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
@@ -43,10 +39,12 @@ namespace dotnet_rpg_udemy.Services.CharacterService
 
             try
             {
-                Character character = characters.First(c => c.Id == id);
-                characters.Remove(character);
+                Character character = await _context.Characters.FirstAsync(c => c.Id == id);
+                _context.Characters.Remove(character);
 
-                serviceResponse.Data = (characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
+                await _context.SaveChangesAsync();
+
+                serviceResponse.Data = (_context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c))).ToList();
             }
             catch (Exception ex)
             {
@@ -79,13 +77,16 @@ namespace dotnet_rpg_udemy.Services.CharacterService
 
             try
             {
-                Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                Character character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
                 character.Name = updatedCharacter.Name;
                 character.Class = updatedCharacter.Class;
                 character.Defence = updatedCharacter.Defence;
                 character.HitPoints = updatedCharacter.HitPoints;
                 character.Intelligence = updatedCharacter.Intelligence;
                 character.Strength = updatedCharacter.Strength;
+
+                _context.Characters.Update(character);
+                await _context.SaveChangesAsync();
 
                 serviceResponse.Data = _mapper.Map<GetCharacterDto>(character);
             }
