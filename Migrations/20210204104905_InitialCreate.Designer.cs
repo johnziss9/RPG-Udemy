@@ -9,7 +9,7 @@ using RPG_Udemy.Data;
 namespace dotnet_rpg.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210202160702_InitialCreate")]
+    [Migration("20210204104905_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
