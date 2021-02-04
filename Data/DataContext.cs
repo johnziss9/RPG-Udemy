@@ -1,5 +1,6 @@
 using dotnet_rpg_udemy.Models;
 using Microsoft.EntityFrameworkCore;
+using RPG_Udemy.Models;
 
 namespace RPG_Udemy.Data
 {
@@ -11,5 +12,6 @@ namespace RPG_Udemy.Data
         }
 
         public DbSet<Character> Characters { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
